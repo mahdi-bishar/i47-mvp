@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>i47® – Native Language Platform</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,0.03),
+      rgba(0,0,0,0.03) 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    linear-gradient(to bottom, #2ecc71, #ffffff);
+}
+
+header {
+  padding: 15px 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #1b5e20;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.card:hover { transform: scale(1.05); }
+
+.language-card {
+  background: #dff5e3;
+  border: 2px solid #1b5e20;
+}
+
+.icon { font-size: 32px; }
+
+.content-box {
+  display: none;
+  margin-top: 20px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 30px;
+  color: #2e7d32;
+  font-style: italic;
+}
+</style>
+</head>
+
+<body>
+
+<header>i47®</header>
+
+<div class="container">
+
+<!-- LANGUAGE SELECTION -->
+<div class="grid">
+  <div class="card language-card" onclick="toggleSomali()">
+    <div class="icon">🌍</div>
+    <h3>Somali</h3>
+  </div>
+
+  <div class="card language-card" onclick="openLuo()">
+    <div class="icon">🌍</div>
+    <h3>Luo</h3>
+  </div>
+</div>
+
+<!-- SOMALI CATEGORIES -->
+<div id="somaliCategories" class="grid" style="display:none; margin-top:20px;">
+  <div class="card" onclick="openContent('alphabet')">🔤 Alphabet</div>
+  <div class="card" onclick="openContent('numbers')">🔢 Numbers</div>
+  <div class="card" onclick="openContent('family')">👨‍👩‍👧 Family</div>
+  <div class="card" onclick="openContent('animals')">🐄 Animals</div>
+  <div class="card" onclick="openContent('greetings')">👋 Greetings</div>
+  <div class="card" onclick="openDictionary()">📘 Dictionary 🔒</div>
+  <div class="card" onclick="openFeedback()">📝 Feedback</div>
+</div>
+
+<!-- CONTENT DISPLAY -->
+<div id="contentBox" class="content-box">
+  <iframe id="contentFrame"></iframe>
+</div>
+
+<!-- LUO BOX -->
+<div id="luoBox" class="content-box">
+  <h2>🌍 Luo Language</h2>
+  <p>Be patient — this language is coming soon.</p>
+  <p>Please tell us in the feedback form if you’d pay for this.</p>
+</div>
+
+<!-- FEEDBACK -->
+<div id="feedbackBox" class="content-box">
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdiCA4kR2_jN2ajI32jrvNKAIl0eKUY4YBVgod6q3eqQMSeQQ/viewform?embedded=true"></iframe>
+</div>
+
+<div class="footer">
+“Language is identity. Preserving it preserves people.”
+</div>
+
+</div>
+
+<script>
+const links = {
+ alphabet:"https://docs.google.com/spreadsheets/d/e/2PACX-1vRu_xYssnNbl4I8gy-gNrQTAoePETQZC_BFluw5w_dCsuFmjIhXNCJbcMcIxoXjeY309Y_Ytu73-3Jt/pubhtml?gid=1640331858&single=true",
+ numbers:"https://docs.google.com/spreadsheets/d/e/2PACX-1vRu_xYssnNbl4I8gy-gNrQTAoePETQZC_BFluw5w_dCsuFmjIhXNCJbcMcIxoXjeY309Y_Ytu73-3Jt/pubhtml?gid=1405329022&single=true",
+ family:"https://docs.google.com/spreadsheets/d/e/2PACX-1vRu_xYssnNbl4I8gy-gNrQTAoePETQZC_BFluw5w_dCsuFmjIhXNCJbcMcIxoXjeY309Y_Ytu73-3Jt/pubhtml?gid=1170462479&single=true",
+ animals:"https://docs.google.com/spreadsheets/d/e/2PACX-1vRu_xYssnNbl4I8gy-gNrQTAoePETQZC_BFluw5w_dCsuFmjIhXNCJbcMcIxoXjeY309Y_Ytu73-3Jt/pubhtml?gid=937722853&single=true",
+ greetings:"https://docs.google.com/spreadsheets/d/e/2PACX-1vRu_xYssnNbl4I8gy-gNrQTAoePETQZC_BFluw5w_dCsuFmjIhXNCJbcMcIxoXjeY309Y_Ytu73-3Jt/pubhtml?gid=600277276&single=true"
+};
+
+function resetView(){
+ document.getElementById("contentBox").style.display="none";
+ document.getElementById("feedbackBox").style.display="none";
+ document.getElementById("luoBox").style.display="none";
+ document.getElementById("contentFrame").src="";
+}
+
+function toggleSomali(){
+ resetView();
+ const el=document.getElementById("somaliCategories");
+ el.style.display = el.style.display==="none"?"grid":"none";
+}
+
+function openContent(cat){
+ resetView();
+ document.getElementById("somaliCategories").style.display="grid";
+ document.getElementById("contentBox").style.display="block";
+ document.getElementById("contentFrame").src=links[cat];
+}
+
+function openDictionary(){
+ resetView();
+ document.getElementById("contentBox").style.display="block";
+ document.getElementById("contentFrame").src="about:blank";
+ document.getElementById("contentBox").innerHTML=
+ "<h2>📘 Dictionary</h2><p><strong>🔒 Premium feature coming soon.</strong></p><p>Would you pay for full dictionary access? Please answer in feedback.</p>";
+}
+
+function openFeedback(){
+ resetView();
+ document.getElementById("feedbackBox").style.display="block";
+}
+
+function openLuo(){
+ resetView();
+ document.getElementById("somaliCategories").style.display="none";
+ document.getElementById("luoBox").style.display="block";
+}
+</script>
+
+</body>
+</html>
